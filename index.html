@@ -36,9 +36,7 @@
       align-items: flex-start;
     }
     @media (max-width: 900px) {
-      .shell {
-        grid-template-columns: minmax(0, 1fr);
-      }
+      .shell { grid-template-columns: minmax(0, 1fr); }
     }
     .card {
       background: linear-gradient(135deg, rgba(15,23,42,0.96), rgba(15,23,42,0.98));
@@ -330,7 +328,6 @@
       letter-spacing:0.03em;
     }
 
-    /* アイコンとテキストの並び */
     .kv {
       display:flex;
       align-items:flex-start;
@@ -344,15 +341,15 @@
       }
     }
 
+    /* ★ ここがアイコンのサイズ指定（300×300相当の正方形） */
     .icon {
-      width: 220px;
-      max-width: 70vw;
-      aspect-ratio: 3 / 4;
+      width: min(300px, 70vw);
+      aspect-ratio: 1 / 1;
       border-radius: 16px;
       border: 1px solid rgba(148,163,184,0.7);
       object-fit: cover;
       background: #020617;
-      display: none;          /* 初期は非表示、JSでblockに */
+      display: none;
       flex-shrink: 0;
     }
 
@@ -381,6 +378,42 @@
     }
     .phrase-text { font-size:0.84rem; }
 
+    .deep-section {
+      margin-top:14px;
+      padding:11px 12px 12px;
+      border-radius:12px;
+      background:rgba(15,23,42,0.9);
+      border:1px solid rgba(148,163,184,0.4);
+    }
+    .deep-title {
+      margin:0 0 4px;
+      font-size:0.86rem;
+      font-weight:600;
+    }
+    .deep-text {
+      margin:0 0 8px;
+      font-size:0.78rem;
+      color:var(--text-soft);
+      line-height:1.7;
+    }
+    .deep-btn {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      padding:7px 14px;
+      font-size:0.8rem;
+      font-weight:600;
+      border-radius:999px;
+      text-decoration:none;
+      background:linear-gradient(135deg,#22c55e,#16a34a);
+      color:#ecfdf5;
+      box-shadow:0 12px 25px rgba(21,128,61,0.45);
+    }
+    .deep-btn span {
+      font-size:0.9em;
+    }
+
     .foot-note {
       margin-top:8px;
       font-size:0.68rem;
@@ -408,7 +441,7 @@
 <body>
 <div class="shell">
 
-  <!-- 左カラム：LP的説明＋入力 -->
+  <!-- 左カラム -->
   <section class="card">
     <div class="card-inner">
       <div class="badge">
@@ -482,7 +515,7 @@
     </div>
   </section>
 
-  <!-- 右カラム：結果表示＋案内 -->
+  <!-- 右カラム -->
   <section class="side-card">
     <div class="side-inner">
       <h2 class="side-title">診断結果</h2>
@@ -515,6 +548,21 @@
           <div class="phrase-label">【フランク】まず一言</div>
           <div id="phraseCasual" class="phrase-text">診断すると表示されます。</div>
         </div>
+
+        <!-- ★ 深掘り案内ブロック（復活） -->
+        <div class="deep-section">
+          <h4 class="deep-title">このタイプをもっと深掘りしたい方へ</h4>
+          <p class="deep-text">
+            無料診断でわかったタイプをもとに、仕事／恋人／家族などシーン別の
+            「言い方テンプレ」をまとめた <strong>note 無料お試し版</strong>をご用意しています。
+          </p>
+          <a class="deep-btn"
+             href="https://example.com/"
+             target="_blank"
+             rel="noopener">
+            <span>note無料お試し版をダウンロードする</span>
+          </a>
+        </div>
       </div>
 
       <div class="foot-note">
@@ -544,17 +592,12 @@
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 <script>
-  /****************************************
-   * ここから下が「ロジック＆データ部」
-   ****************************************/
-
   function pad2(n) {
     n = Number(n);
     return (n < 10 ? "0" : "") + n;
   }
   function $(id) { return document.getElementById(id); }
 
-  // 診断に直接使わないが、結果表示用にラベルを保持
   const RELATION_LABELS = {
     "none": "選択しない",
     "self": "自分",
@@ -565,9 +608,6 @@
     "coworker": "同僚"
   };
 
-  // ============================
-  // 1. 診断データ
-  // ============================
   const DATA = {
     "RANDOM_TABLE": {
       "1926": { "1": 26, "2": 57, "3": 25, "4": 56, "5": 26, "6": 57, "7": 27, "8": 58, "9": 29, "10": 59, "11": 30, "12": 0 },
@@ -781,7 +821,6 @@
     }
   };
 
-  // アイコン：GitHub Pages 上の icons/ 配下を利用
   const TYPE_ICON_URLS = {
     "星導航路士＝航路士": "icons/01.png",
     "橋渡し治癒師＝治癒師": "icons/02.png",
@@ -797,9 +836,6 @@
     "起点火付け役＝火付役": "icons/12.png"
   };
 
-  // ----------------------------
-  // 2. 診断ロジック
-  // ----------------------------
   function diagnoseByTables(yyyy, mm, dd) {
     var yKey = String(yyyy);
     var mKey = String(mm);
@@ -835,9 +871,6 @@
     };
   }
 
-  // ----------------------------
-  // 3. 結果表示
-  // ----------------------------
   function showResult(res) {
     $("result").classList.add("show");
 
@@ -867,7 +900,7 @@
     $("phrasePolite").textContent =
       tData.polite || "有料版テンプレートで詳細なフレーズが手に入ります。";
     $("phraseCasual").textContent =
-      tData.casual || "有料版テンプレートで詳細なフレーズが手に入ります。";
+      tData.casual || "有料版テンプレートで詳細なフレーズが手に入ります.";
 
     var iconEl = $("typeIcon");
     if (!iconEl) return;
@@ -890,9 +923,6 @@
     }
   }
 
-  // ----------------------------
-  // 4. トースト・セレクタ初期化
-  // ----------------------------
   function showToast(msg) {
     var t = $("toast");
     if (!t) return;
@@ -939,9 +969,6 @@
     daySel.value   = "1";
   }
 
-  // ----------------------------
-  // 5. 初期化
-  // ----------------------------
   document.addEventListener("DOMContentLoaded", function() {
     populateDateSelectors();
 
