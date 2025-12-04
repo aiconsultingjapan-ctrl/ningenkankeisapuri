@@ -871,57 +871,70 @@
     };
   }
 
-  function showResult(res) {
-    $("result").classList.add("show");
+function showResult(res) {
+  const resultEl = $("result");
 
-    $("typeCode").textContent =
-      "診断結果（" + res.year + "年" + pad2(res.month) + "月" + pad2(res.day) + "日生まれ）";
-    $("typeName").textContent =
-      "#" + pad2(res.index) + " " + res.typeName;
+  // 結果カードを表示
+  resultEl.classList.add("show");
 
-    var tData = TYPE_DATA[res.typeName] || {};
-    $("typeTagline").textContent = tData.tagline || "";
+  $("typeCode").textContent =
+    "診断結果（" + res.year + "年" + pad2(res.month) + "月" + pad2(res.day) + "日生まれ）";
+  $("typeName").textContent =
+    "#" + pad2(res.index) + " " + res.typeName;
 
-    var relSuffix = "";
-    if (res.relation && res.relation !== "選択しない") {
-      relSuffix = "｜診断対象:" + res.relation;
-    }
+  var tData = TYPE_DATA[res.typeName] || {};
+  $("typeTagline").textContent = tData.tagline || "";
 
-    $("typeMeta").textContent =
-      "年:" + res.year +
-      " 月:" + res.month +
-      "｜乱数:" + res.base + "＋日=" + res.num +
-      "｜十二運:" + res.juniun +
-      relSuffix;
-
-    $("typeMessage").textContent =
-      "まずはこのタイプの前提を押さえてから、言い方テンプレを選んでいきましょう。";
-
-    $("phrasePolite").textContent =
-      tData.polite || "有料版テンプレートで詳細なフレーズが手に入ります。";
-    $("phraseCasual").textContent =
-      tData.casual || "有料版テンプレートで詳細なフレーズが手に入ります.";
-
-    var iconEl = $("typeIcon");
-    if (!iconEl) return;
-
-    var url = TYPE_ICON_URLS[res.typeName] || "";
-    iconEl.onerror = function (ev) {
-      console.error("typeIcon load ERROR", ev, "src =", iconEl.src);
-      iconEl.style.display = "none";
-    };
-    iconEl.onload = function () {
-      console.log("typeIcon load OK");
-    };
-
-    if (url) {
-      iconEl.src = url;
-      iconEl.style.display = "block";
-    } else {
-      iconEl.removeAttribute("src");
-      iconEl.style.display = "none";
-    }
+  var relSuffix = "";
+  if (res.relation && res.relation !== "選択しない") {
+    relSuffix = "｜診断対象:" + res.relation;
   }
+
+  $("typeMeta").textContent =
+    "年:" + res.year +
+    " 月:" + res.month +
+    "｜乱数:" + res.base + "＋日=" + res.num +
+    "｜十二運:" + res.juniun +
+    relSuffix;
+
+  $("typeMessage").textContent =
+    "まずはこのタイプの前提を押さえてから、言い方テンプレを選んでいきましょう。";
+
+  $("phrasePolite").textContent =
+    tData.polite || "有料版テンプレートで詳細なフレーズが手に入ります。";
+  $("phraseCasual").textContent =
+    tData.casual || "有料版テンプレートで詳細なフレーズが手に入ります。";
+
+  var iconEl = $("typeIcon");
+  if (!iconEl) return;
+
+  var url = TYPE_ICON_URLS[res.typeName] || "";
+  iconEl.onerror = function (ev) {
+    console.error("typeIcon load ERROR", ev, "src =", iconEl.src);
+    iconEl.style.display = "none";
+  };
+  iconEl.onload = function () {
+    console.log("typeIcon load OK");
+  };
+
+  if (url) {
+    iconEl.src = url;
+    iconEl.style.display = "block";
+  } else {
+    iconEl.removeAttribute("src");
+    iconEl.style.display = "none";
+  }
+
+  // ★ ここから追加：診断結果カードまで自動スクロール
+  // スマホで特に効果的ですが、PCでも自然なので共通で実行してOKです。
+  setTimeout(function () {
+    resultEl.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "nearest"
+    });
+  }, 80);
+}
 
   function showToast(msg) {
     var t = $("toast");
