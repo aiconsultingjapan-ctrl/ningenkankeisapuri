@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>ニンゲンカンケイサプリ｜12タイプ無料診断</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #111827;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56,189,248,0.12);
+      --text: #e5e7eb;
+      --text-soft: #9ca3af;
+      --danger: #f97373;
+      --radius-xl: 18px;
+      --shadow-soft: 0 18px 45px rgba(15,23,42,0.6);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1e293b 0, #020617 52%, #000 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 24px 16px 40px;
+    }
+    .shell {
+      width: 100%;
+      max-width: 960px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: flex-start;
+    }
+    @media (max-width: 900px) {
+      .shell {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+    .card {
+      background: linear-gradient(135deg, rgba(15,23,42,0.96), rgba(15,23,42,0.98));
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(148,163,184,0.22);
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      opacity: 0.15;
+      background:
+        radial-gradient(circle at top left, rgba(56,189,248,0.5), transparent 60%),
+        radial-gradient(circle at bottom right, rgba(129,140,248,0.5), transparent 55%);
+      pointer-events: none;
+    }
+    .card-inner {
+      position: relative;
+      padding: 22px 22px 20px;
+    }
+    @media (max-width: 600px) {
+      .card-inner { padding: 18px 16px 20px; }
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.45);
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.3), transparent 60%);
+      font-size: 11px;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      margin-bottom: 10px;
+    }
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 5px rgba(56,189,248,0.25);
+    }
+    h1 {
+      font-size: clamp(1.7rem, 2.1vw, 2.2rem);
+      margin: 0;
+      line-height: 1.25;
+      letter-spacing: .02em;
+    }
+    h1 span.gradient {
+      background: linear-gradient(120deg,#38bdf8,#a855f7);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .lead {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: var(--text-soft);
+      line-height: 1.6;
+    }
+    .hero-list {
+      margin: 14px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 6px;
+      font-size: 0.84rem;
+      color: var(--text-soft);
+    }
+    .hero-list li {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hero-list li::before {
+      content: "◎";
+      font-size: 0.7rem;
+      color: var(--accent);
+    }
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
+    }
+    .pill {
+      font-size: 0.7rem;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.45);
+      color: var(--text-soft);
+    }
+
+    .form-card {
+      margin-top: 14px;
+      border-radius: calc(var(--radius-xl) - 6px);
+      border: 1px solid rgba(148,163,184,0.35);
+      background: radial-gradient(circle at top, rgba(15,23,42,0.88), rgba(15,23,42,0.96));
+      position: relative;
+      overflow: hidden;
+    }
+    .form-card::before {
+      content:"";
+      position:absolute;
+      inset:0;
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.18), transparent 55%);
+      opacity: 0.7;
+      pointer-events:none;
+    }
+    .form-inner {
+      position:relative;
+      padding: 16px 16px 14px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .form-title-row {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+    }
+    .form-title {
+      font-size:0.95rem;
+      font-weight:600;
+    }
+    .form-note {
+      font-size:0.7rem;
+      color:var(--text-soft);
+    }
+    .controls-row {
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+      margin-top:4px;
+    }
+    .select {
+      appearance:none;
+      -webkit-appearance:none;
+      -moz-appearance:none;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,0.7);
+      background:rgba(15,23,42,0.95);
+      color:var(--text);
+      padding:5px 28px 5px 10px;
+      font-size:0.84rem;
+      line-height:1.4;
+      position:relative;
+      min-width:72px;
+    }
+    .select-wrap {
+      position:relative;
+      display:inline-flex;
+      align-items:center;
+    }
+    .select-wrap::after {
+      content:"▾";
+      position:absolute;
+      right:8px;
+      font-size:0.6rem;
+      pointer-events:none;
+      color:var(--text-soft);
+    }
+    .select-label {
+      font-size:0.8rem;
+      color:var(--text-soft);
+      margin-left:4px;
+      margin-right:6px;
+    }
+    .btn {
+      border-radius:999px;
+      border:none;
+      background: linear-gradient(135deg,#38bdf8,#4f46e5);
+      color:white;
+      font-weight:600;
+      padding:7px 16px;
+      font-size:0.85rem;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      box-shadow:0 12px 30px rgba(37,99,235,0.45);
+      white-space:nowrap;
+    }
+    .btn span.dot {
+      width:7px;
+      height:7px;
+      border-radius:999px;
+      background:#22c55e;
+      box-shadow:0 0 0 4px rgba(34,197,94,0.35);
+    }
+    .btn:disabled {
+      opacity:0.6;
+      cursor:default;
+      box-shadow:none;
+    }
+    .hint {
+      font-size:0.7rem;
+      color:var(--text-soft);
+      margin-top:6px;
+    }
+
+    .relation-row {
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      gap:8px;
+      margin-top:4px;
+    }
+    .relation-label {
+      font-size:0.8rem;
+      color:var(--text-soft);
+      min-width:8em;
+    }
+    .select-full {
+      min-width:160px;
+    }
+
+    .side-card {
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.15), rgba(15,23,42,0.96));
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(148,163,184,0.3);
+      box-shadow: var(--shadow-soft);
+      padding: 18px 18px 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .side-card::before {
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at top, rgba(56,189,248,0.35), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(236,72,153,0.3), transparent 60%);
+      opacity: 0.45;
+      pointer-events:none;
+    }
+    .side-inner { position:relative; }
+    .side-title {
+      font-size:0.9rem;
+      font-weight:600;
+      margin:0;
+    }
+    .side-lead {
+      font-size:0.8rem;
+      color:var(--text-soft);
+      margin:6px 0 10px;
+      line-height:1.7;
+    }
+    .pill-grid {
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:4px;
+    }
+    .pill-ghost {
+      font-size:0.72rem;
+      padding:4px 8px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,0.5);
+      background:rgba(15,23,42,0.7);
+      color:var(--text-soft);
+    }
+
+    .result {
+      margin-top:18px;
+      display:none;
+    }
+    .result.show { display:block; }
+    .result-header {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:10px;
+    }
+    .result-code {
+      font-size:0.78rem;
+      color:var(--text-soft);
+    }
+    .result-type-name {
+      margin:0;
+      font-size:1.1rem;
+      letter-spacing:0.03em;
+    }
+
+    /* アイコンとテキストの並び */
+    .kv {
+      display:flex;
+      align-items:flex-start;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+    @media (max-width: 600px) {
+      .kv {
+        flex-direction:column;
+        align-items:center;
+      }
+    }
+
+    .icon {
+      width: 220px;
+      max-width: 70vw;
+      aspect-ratio: 3 / 4;
+      border-radius: 16px;
+      border: 1px solid rgba(148,163,184,0.7);
+      object-fit: cover;
+      background: #020617;
+      display: none;          /* 初期は非表示、JSでblockに */
+      flex-shrink: 0;
+    }
+
+    .result-detail {
+      margin-top:4px;
+      font-size:0.75rem;
+      color:var(--text-soft);
+    }
+    .result-msg {
+      margin-top:10px;
+      font-size:0.86rem;
+      line-height:1.6;
+    }
+    .phrase-box {
+      margin-top:10px;
+      padding:10px 11px;
+      border-radius:12px;
+      background:rgba(15,23,42,0.9);
+      border:1px solid rgba(148,163,184,0.4);
+      font-size:0.8rem;
+    }
+    .phrase-label {
+      font-size:0.7rem;
+      color:var(--text-soft);
+      margin-bottom:2px;
+    }
+    .phrase-text { font-size:0.84rem; }
+
+    .foot-note {
+      margin-top:8px;
+      font-size:0.68rem;
+      color:var(--text-soft);
+    }
+    .foot-note a { color:var(--accent); }
+
+    .toast {
+      position:fixed;
+      bottom:18px;
+      left:50%;
+      transform:translateX(-50%);
+      background:#0b1120;
+      color:var(--text);
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,0.5);
+      font-size:0.78rem;
+      display:none;
+      z-index:40;
+    }
+    .toast.show { display:block; }
+  </style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- 左カラム：LP的説明＋入力 -->
+  <section class="card">
+    <div class="card-inner">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        ニンゲンカンケイサプリ｜12タイプ無料診断
+      </div>
+      <h1>
+        生年月日からわかる<br />
+        <span class="gradient">「言い方」の処方箋</span>を受け取る
+      </h1>
+      <p class="lead">
+        上司・部下・家族・パートナー…。「性格」ではなく<br />
+        <strong>12タイプ別のコミュニケーションパターン</strong>から<br />
+        「刺さる一言」「こじらせない聞き方」を診断します。
+      </p>
+      <ul class="hero-list">
+        <li>算命学・四柱推命ベースの12タイプ × 行動心理学で再設計</li>
+        <li>仕事／アプローチ／恋人／パートナー／家族の5領域に対応</li>
+        <li>テンプレ総数 1,800フレーズから、まずは入口タイプをチェック</li>
+      </ul>
+      <div class="pill-row">
+        <span class="pill">#仕事での言い方がわからない</span>
+        <span class="pill">#パートナーとすれ違う</span>
+        <span class="pill">#家族との距離感が難しい</span>
+      </div>
+
+      <!-- 診断フォーム -->
+      <div class="form-card">
+        <div class="form-inner">
+          <div class="form-title-row">
+            <div class="form-title">まずはあなた（or お相手）のタイプを診断</div>
+            <div class="form-note">※西暦・太陽暦で入力してください</div>
+          </div>
+
+          <div class="controls-row">
+            <div class="select-wrap">
+              <select id="year"  class="select"></select>
+              <span class="select-label">年</span>
+            </div>
+            <div class="select-wrap">
+              <select id="month" class="select"></select>
+              <span class="select-label">月</span>
+            </div>
+            <div class="select-wrap">
+              <select id="day"   class="select"></select>
+              <span class="select-label">日</span>
+            </div>
+            <button id="btnDiagnose" class="btn" type="button">診断する</button>
+          </div>
+
+          <div class="relation-row">
+            <span class="relation-label">相手との関係（任意）:</span>
+            <div class="select-wrap">
+              <select id="relation" class="select select-full">
+                <option value="none">選択しない</option>
+                <option value="self">自分</option>
+                <option value="like">気になる人</option>
+                <option value="lover">恋人</option>
+                <option value="partner">パートナー</option>
+                <option value="family">家族</option>
+                <option value="coworker">同僚</option>
+              </select>
+            </div>
+          </div>
+
+          <p class="hint">
+            ※診断は「年×月＋日」をもとにした簡易十二運ロジックです。立春補正は使わず、シンプルな年・月・日で判定します。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 右カラム：結果表示＋案内 -->
+  <section class="side-card">
+    <div class="side-inner">
+      <h2 class="side-title">診断結果</h2>
+      <p class="side-lead">
+        生年月日から割り出したタイプと、そのタイプへの「言い方」のヒントを表示します。
+      </p>
+
+      <!-- 診断結果カード -->
+      <div id="result" class="result">
+        <div class="result-header">
+          <div class="result-code" id="typeCode">診断前です</div>
+        </div>
+
+        <div class="kv">
+          <img id="typeIcon" class="icon" alt="タイプ・アイコン" />
+          <div>
+            <h3 id="typeName" class="result-type-name">タイプ未診断</h3>
+            <div id="typeTagline" class="result-detail"></div>
+          </div>
+        </div>
+
+        <div id="typeMeta" class="result-detail"></div>
+        <div id="typeMessage" class="result-msg"></div>
+
+        <div class="phrase-box">
+          <div class="phrase-label">【敬語モード】まず一言</div>
+          <div id="phrasePolite" class="phrase-text">診断すると表示されます。</div>
+        </div>
+        <div class="phrase-box">
+          <div class="phrase-label">【フランク】まず一言</div>
+          <div id="phraseCasual" class="phrase-text">診断すると表示されます。</div>
+        </div>
+      </div>
+
+      <div class="foot-note">
+        ※本診断は、算命学・四柱推命の十二運ロジックをもとにした
+        <strong>「コミュニケーション特化の簡易版」</strong>です。<br />
+        立春補正などの詳細計算はあえて使わず、<strong>実用性とわかりやすさ</strong>を優先しています。
+      </div>
+
+      <div style="margin-top:10px;">
+        <div style="font-size:0.78rem;color:var(--text-soft);margin-bottom:4px;">
+          有料版では、こんなシーン別テンプレが手に入ります：
+        </div>
+        <div class="pill-grid">
+          <span class="pill-ghost">仕事｜初対面の掴み</span>
+          <span class="pill-ghost">仕事｜ミスのフォロー</span>
+          <span class="pill-ghost">アプローチ｜LINEの最初の一言</span>
+          <span class="pill-ghost">恋人｜ケンカの後の一言</span>
+          <span class="pill-ghost">パートナー｜家事の相談</span>
+          <span class="pill-ghost">家族｜心配の伝え方</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script>
+  /****************************************
+   * ここから下が「ロジック＆データ部」
+   ****************************************/
+
+  function pad2(n) {
+    n = Number(n);
+    return (n < 10 ? "0" : "") + n;
+  }
+  function $(id) { return document.getElementById(id); }
+
+  // 診断に直接使わないが、結果表示用にラベルを保持
+  const RELATION_LABELS = {
+    "none": "選択しない",
+    "self": "自分",
+    "like": "気になる人",
+    "lover": "恋人",
+    "partner": "パートナー",
+    "family": "家族",
+    "coworker": "同僚"
+  };
+
+  // ============================
+  // 1. 診断データ
+  // ============================
+  const DATA = {
+    "RANDOM_TABLE": {
+      "1926": { "1": 26, "2": 57, "3": 25, "4": 56, "5": 26, "6": 57, "7": 27, "8": 58, "9": 29, "10": 59, "11": 30, "12": 0 },
+      "1927": { "1": 31, "2": 2, "3": 30, "4": 1, "5": 31, "6": 2, "7": 32, "8": 3, "9": 34, "10": 4, "11": 35, "12": 5 },
+      "1928": { "1": 36, "2": 7, "3": 36, "4": 7, "5": 37, "6": 8, "7": 38, "8": 9, "9": 40, "10": 10, "11": 41, "12": 11 },
+      "1929": { "1": 42, "2": 13, "3": 41, "4": 12, "5": 42, "6": 13, "7": 43, "8": 14, "9": 45, "10": 15, "11": 46, "12": 16 },
+      "1930": { "1": 47, "2": 18, "3": 46, "4": 17, "5": 47, "6": 18, "7": 48, "8": 19, "9": 50, "10": 20, "11": 51, "12": 21 },
+      "1931": { "1": 52, "2": 23, "3": 51, "4": 22, "5": 52, "6": 23, "7": 53, "8": 24, "9": 55, "10": 25, "11": 56, "12": 26 },
+      "1932": { "1": 57, "2": 28, "3": 57, "4": 28, "5": 58, "6": 29, "7": 59, "8": 30, "9": 1, "10": 31, "11": 2, "12": 32 },
+      "1933": { "1": 3, "2": 34, "3": 2, "4": 33, "5": 3, "6": 34, "7": 4, "8": 35, "9": 6, "10": 36, "11": 7, "12": 37 },
+      "1934": { "1": 8, "2": 39, "3": 7, "4": 38, "5": 8, "6": 39, "7": 9, "8": 40, "9": 11, "10": 41, "11": 12, "12": 42 },
+      "1935": { "1": 13, "2": 44, "3": 12, "4": 43, "5": 13, "6": 44, "7": 14, "8": 45, "9": 16, "10": 46, "11": 17, "12": 47 },
+      "1936": { "1": 18, "2": 49, "3": 18, "4": 49, "5": 19, "6": 50, "7": 20, "8": 51, "9": 22, "10": 52, "11": 23, "12": 53 },
+      "1937": { "1": 24, "2": 55, "3": 23, "4": 54, "5": 24, "6": 55, "7": 25, "8": 56, "9": 27, "10": 57, "11": 28, "12": 58 },
+      "1938": { "1": 29, "2": 0, "3": 28, "4": 59, "5": 29, "6": 0, "7": 30, "8": 1, "9": 32, "10": 2, "11": 33, "12": 3 },
+      "1939": { "1": 34, "2": 5, "3": 33, "4": 4, "5": 34, "6": 5, "7": 35, "8": 6, "9": 37, "10": 7, "11": 38, "12": 8 },
+      "1940": { "1": 39, "2": 10, "3": 39, "4": 10, "5": 40, "6": 11, "7": 41, "8": 12, "9": 43, "10": 13, "11": 44, "12": 14 },
+      "1941": { "1": 45, "2": 16, "3": 44, "4": 15, "5": 45, "6": 16, "7": 46, "8": 17, "9": 48, "10": 18, "11": 49, "12": 19 },
+      "1942": { "1": 50, "2": 21, "3": 49, "4": 20, "5": 50, "6": 21, "7": 51, "8": 22, "9": 53, "10": 23, "11": 54, "12": 24 },
+      "1943": { "1": 55, "2": 26, "3": 54, "4": 25, "5": 55, "6": 26, "7": 56, "8": 27, "9": 58, "10": 28, "11": 59, "12": 29 },
+      "1944": { "1": 0, "2": 31, "3": 0, "4": 31, "5": 1, "6": 32, "7": 2, "8": 33, "9": 4, "10": 34, "11": 5, "12": 35 },
+      "1945": { "1": 6, "2": 37, "3": 5, "4": 36, "5": 6, "6": 37, "7": 7, "8": 38, "9": 9, "10": 39, "11": 10, "12": 40 },
+      "1946": { "1": 11, "2": 42, "3": 10, "4": 41, "5": 11, "6": 42, "7": 12, "8": 43, "9": 14, "10": 44, "11": 15, "12": 45 },
+      "1947": { "1": 16, "2": 47, "3": 15, "4": 46, "5": 16, "6": 47, "7": 17, "8": 48, "9": 19, "10": 49, "11": 20, "12": 50 },
+      "1948": { "1": 21, "2": 52, "3": 21, "4": 52, "5": 22, "6": 53, "7": 23, "8": 54, "9": 25, "10": 55, "11": 26, "12": 56 },
+      "1949": { "1": 27, "2": 58, "3": 26, "4": 57, "5": 27, "6": 58, "7": 28, "8": 59, "9": 30, "10": 0, "11": 31, "12": 1 },
+      "1950": { "1": 32, "2": 3, "3": 31, "4": 2, "5": 32, "6": 3, "7": 33, "8": 4, "9": 35, "10": 5, "11": 36, "12": 6 },
+      "1951": { "1": 37, "2": 8, "3": 36, "4": 7, "5": 37, "6": 8, "7": 38, "8": 9, "9": 40, "10": 10, "11": 41, "12": 11 },
+      "1952": { "1": 42, "2": 13, "3": 42, "4": 13, "5": 43, "6": 14, "7": 44, "8": 15, "9": 46, "10": 16, "11": 47, "12": 17 },
+      "1953": { "1": 48, "2": 19, "3": 47, "4": 18, "5": 48, "6": 19, "7": 49, "8": 20, "9": 51, "10": 21, "11": 52, "12": 22 },
+      "1954": { "1": 53, "2": 24, "3": 52, "4": 23, "5": 53, "6": 24, "7": 54, "8": 25, "9": 56, "10": 26, "11": 57, "12": 27 },
+      "1955": { "1": 58, "2": 29, "3": 57, "4": 28, "5": 58, "6": 29, "7": 59, "8": 30, "9": 1, "10": 31, "11": 2, "12": 32 },
+      "1956": { "1": 3, "2": 34, "3": 3, "4": 34, "5": 4, "6": 35, "7": 5, "8": 36, "9": 7, "10": 37, "11": 8, "12": 38 },
+      "1957": { "1": 9, "2": 40, "3": 8, "4": 39, "5": 9, "6": 40, "7": 10, "8": 41, "9": 12, "10": 42, "11": 13, "12": 43 },
+      "1958": { "1": 14, "2": 45, "3": 13, "4": 44, "5": 14, "6": 45, "7": 15, "8": 46, "9": 17, "10": 47, "11": 18, "12": 48 },
+      "1959": { "1": 19, "2": 50, "3": 18, "4": 49, "5": 19, "6": 50, "7": 20, "8": 51, "9": 22, "10": 52, "11": 23, "12": 53 },
+      "1960": { "1": 24, "2": 55, "3": 24, "4": 55, "5": 25, "6": 56, "7": 26, "8": 57, "9": 28, "10": 58, "11": 29, "12": 59 },
+      "1961": { "1": 30, "2": 1, "3": 29, "4": 0, "5": 30, "6": 1, "7": 31, "8": 2, "9": 33, "10": 3, "11": 34, "12": 4 },
+      "1962": { "1": 35, "2": 6, "3": 34, "4": 5, "5": 35, "6": 6, "7": 36, "8": 7, "9": 38, "10": 8, "11": 39, "12": 9 },
+      "1963": { "1": 40, "2": 11, "3": 39, "4": 10, "5": 40, "6": 11, "7": 41, "8": 12, "9": 43, "10": 13, "11": 44, "12": 14 },
+      "1964": { "1": 45, "2": 16, "3": 45, "4": 16, "5": 46, "6": 17, "7": 47, "8": 18, "9": 49, "10": 19, "11": 50, "12": 20 },
+      "1965": { "1": 51, "2": 22, "3": 50, "4": 21, "5": 51, "6": 22, "7": 52, "8": 23, "9": 54, "10": 24, "11": 55, "12": 25 },
+      "1966": { "1": 56, "2": 27, "3": 55, "4": 26, "5": 56, "6": 27, "7": 57, "8": 28, "9": 59, "10": 29, "11": 0, "12": 30 },
+      "1967": { "1": 1, "2": 32, "3": 0, "4": 31, "5": 1, "6": 32, "7": 2, "8": 33, "9": 4, "10": 34, "11": 5, "12": 35 },
+      "1968": { "1": 6, "2": 37, "3": 6, "4": 37, "5": 7, "6": 38, "7": 8, "8": 39, "9": 10, "10": 40, "11": 11, "12": 41 },
+      "1969": { "1": 12, "2": 43, "3": 11, "4": 42, "5": 12, "6": 43, "7": 13, "8": 44, "9": 15, "10": 45, "11": 16, "12": 46 },
+      "1970": { "1": 17, "2": 48, "3": 16, "4": 47, "5": 17, "6": 48, "7": 18, "8": 49, "9": 20, "10": 50, "11": 21, "12": 51 },
+      "1971": { "1": 22, "2": 53, "3": 21, "4": 52, "5": 22, "6": 53, "7": 23, "8": 54, "9": 25, "10": 55, "11": 26, "12": 56 },
+      "1972": { "1": 27, "2": 58, "3": 27, "4": 58, "5": 28, "6": 59, "7": 29, "8": 0, "9": 31, "10": 1, "11": 32, "12": 2 },
+      "1973": { "1": 33, "2": 4, "3": 32, "4": 3, "5": 33, "6": 4, "7": 34, "8": 5, "9": 36, "10": 6, "11": 37, "12": 7 },
+      "1974": { "1": 38, "2": 9, "3": 37, "4": 8, "5": 38, "6": 9, "7": 39, "8": 10, "9": 41, "10": 11, "11": 42, "12": 12 },
+      "1975": { "1": 43, "2": 14, "3": 42, "4": 13, "5": 43, "6": 14, "7": 44, "8": 15, "9": 46, "10": 16, "11": 47, "12": 17 },
+      "1976": { "1": 48, "2": 19, "3": 48, "4": 19, "5": 49, "6": 20, "7": 50, "8": 21, "9": 52, "10": 22, "11": 53, "12": 23 },
+      "1977": { "1": 54, "2": 25, "3": 53, "4": 24, "5": 54, "6": 25, "7": 55, "8": 26, "9": 57, "10": 27, "11": 58, "12": 28 },
+      "1978": { "1": 59, "2": 30, "3": 58, "4": 29, "5": 59, "6": 30, "7": 0, "8": 31, "9": 2, "10": 32, "11": 3, "12": 33 },
+      "1979": { "1": 4, "2": 35, "3": 3, "4": 34, "5": 4, "6": 35, "7": 5, "8": 36, "9": 7, "10": 37, "11": 8, "12": 38 },
+      "1980": { "1": 9, "2": 40, "3": 9, "4": 40, "5": 10, "6": 41, "7": 11, "8": 42, "9": 13, "10": 43, "11": 14, "12": 44 },
+      "1981": { "1": 15, "2": 46, "3": 14, "4": 45, "5": 15, "6": 46, "7": 16, "8": 47, "9": 18, "10": 48, "11": 19, "12": 49 },
+      "1982": { "1": 20, "2": 51, "3": 19, "4": 50, "5": 20, "6": 51, "7": 21, "8": 52, "9": 23, "10": 53, "11": 24, "12": 54 },
+      "1983": { "1": 25, "2": 56, "3": 24, "4": 55, "5": 25, "6": 56, "7": 26, "8": 57, "9": 28, "10": 58, "11": 29, "12": 59 },
+      "1984": { "1": 30, "2": 1, "3": 30, "4": 1, "5": 31, "6": 2, "7": 32, "8": 3, "9": 34, "10": 4, "11": 35, "12": 5 },
+      "1985": { "1": 36, "2": 7, "3": 35, "4": 6, "5": 36, "6": 7, "7": 37, "8": 8, "9": 39, "10": 9, "11": 40, "12": 10 },
+      "1986": { "1": 41, "2": 12, "3": 40, "4": 11, "5": 41, "6": 12, "7": 42, "8": 13, "9": 44, "10": 14, "11": 45, "12": 15 },
+      "1987": { "1": 46, "2": 17, "3": 45, "4": 16, "5": 46, "6": 17, "7": 47, "8": 18, "9": 49, "10": 19, "11": 50, "12": 20 },
+      "1988": { "1": 51, "2": 22, "3": 51, "4": 22, "5": 52, "6": 23, "7": 53, "8": 24, "9": 55, "10": 25, "11": 56, "12": 26 },
+      "1989": { "1": 57, "2": 28, "3": 56, "4": 27, "5": 57, "6": 28, "7": 58, "8": 29, "9": 0, "10": 30, "11": 1, "12": 31 },
+      "1990": { "1": 2, "2": 33, "3": 1, "4": 32, "5": 2, "6": 33, "7": 3, "8": 34, "9": 5, "10": 35, "11": 6, "12": 36 },
+      "1991": { "1": 7, "2": 38, "3": 6, "4": 37, "5": 7, "6": 38, "7": 8, "8": 39, "9": 10, "10": 40, "11": 11, "12": 41 },
+      "1992": { "1": 12, "2": 43, "3": 12, "4": 43, "5": 13, "6": 44, "7": 14, "8": 45, "9": 16, "10": 46, "11": 17, "12": 47 },
+      "1993": { "1": 18, "2": 49, "3": 17, "4": 48, "5": 18, "6": 49, "7": 19, "8": 50, "9": 21, "10": 51, "11": 22, "12": 52 },
+      "1994": { "1": 23, "2": 54, "3": 22, "4": 53, "5": 23, "6": 54, "7": 24, "8": 55, "9": 26, "10": 56, "11": 27, "12": 57 },
+      "1995": { "1": 28, "2": 59, "3": 27, "4": 58, "5": 28, "6": 59, "7": 29, "8": 0, "9": 31, "10": 1, "11": 32, "12": 2 },
+      "1996": { "1": 33, "2": 4, "3": 33, "4": 4, "5": 34, "6": 5, "7": 35, "8": 6, "9": 37, "10": 7, "11": 38, "12": 8 },
+      "1997": { "1": 39, "2": 10, "3": 38, "4": 9, "5": 39, "6": 10, "7": 40, "8": 11, "9": 42, "10": 12, "11": 43, "12": 13 },
+      "1998": { "1": 44, "2": 15, "3": 43, "4": 14, "5": 44, "6": 15, "7": 45, "8": 16, "9": 47, "10": 17, "11": 48, "12": 18 },
+      "1999": { "1": 49, "2": 20, "3": 48, "4": 19, "5": 49, "6": 20, "7": 50, "8": 21, "9": 52, "10": 22, "11": 53, "12": 23 },
+      "2000": { "1": 54, "2": 25, "3": 54, "4": 25, "5": 55, "6": 26, "7": 56, "8": 27, "9": 58, "10": 28, "11": 59, "12": 29 },
+      "2001": { "1": 0, "2": 31, "3": 59, "4": 30, "5": 0, "6": 31, "7": 1, "8": 32, "9": 3, "10": 33, "11": 4, "12": 34 },
+      "2002": { "1": 5, "2": 36, "3": 4, "4": 35, "5": 5, "6": 36, "7": 6, "8": 37, "9": 8, "10": 38, "11": 9, "12": 39 },
+      "2003": { "1": 10, "2": 41, "3": 9, "4": 40, "5": 10, "6": 41, "7": 11, "8": 42, "9": 13, "10": 43, "11": 14, "12": 44 },
+      "2004": { "1": 15, "2": 46, "3": 15, "4": 46, "5": 16, "6": 47, "7": 17, "8": 48, "9": 19, "10": 49, "11": 20, "12": 50 },
+      "2005": { "1": 21, "2": 52, "3": 20, "4": 51, "5": 21, "6": 52, "7": 22, "8": 53, "9": 24, "10": 54, "11": 25, "12": 55 },
+      "2006": { "1": 26, "2": 57, "3": 25, "4": 56, "5": 26, "6": 57, "7": 27, "8": 58, "9": 29, "10": 59, "11": 30, "12": 0 },
+      "2007": { "1": 31, "2": 2, "3": 30, "4": 1, "5": 31, "6": 2, "7": 32, "8": 3, "9": 34, "10": 4, "11": 35, "12": 5 },
+      "2008": { "1": 36, "2": 7, "3": 36, "4": 7, "5": 37, "6": 8, "7": 38, "8": 9, "9": 40, "10": 10, "11": 41, "12": 11 },
+      "2009": { "1": 42, "2": 13, "3": 41, "4": 12, "5": 42, "6": 13, "7": 43, "8": 14, "9": 45, "10": 15, "11": 46, "12": 16 },
+      "2010": { "1": 47, "2": 18, "3": 46, "4": 17, "5": 47, "6": 18, "7": 48, "8": 19, "9": 50, "10": 20, "11": 51, "12": 21 },
+      "2011": { "1": 52, "2": 23, "3": 51, "4": 22, "5": 52, "6": 23, "7": 53, "8": 24, "9": 55, "10": 25, "11": 56, "12": 26 },
+      "2012": { "1": 57, "2": 28, "3": 57, "4": 28, "5": 58, "6": 29, "7": 59, "8": 30, "9": 1, "10": 31, "11": 2, "12": 32 },
+      "2013": { "1": 3, "2": 34, "3": 2, "4": 33, "5": 3, "6": 34, "7": 4, "8": 35, "9": 6, "10": 36, "11": 7, "12": 37 },
+      "2014": { "1": 8, "2": 39, "3": 7, "4": 38, "5": 8, "6": 39, "7": 9, "8": 40, "9": 11, "10": 41, "11": 12, "12": 42 },
+      "2015": { "1": 13, "2": 44, "3": 12, "4": 43, "5": 13, "6": 44, "7": 14, "8": 45, "9": 16, "10": 46, "11": 17, "12": 47 },
+      "2016": { "1": 18, "2": 49, "3": 18, "4": 49, "5": 19, "6": 50, "7": 20, "8": 51, "9": 22, "10": 52, "11": 23, "12": 53 },
+      "2017": { "1": 24, "2": 55, "3": 23, "4": 54, "5": 24, "6": 55, "7": 25, "8": 56, "9": 27, "10": 57, "11": 28, "12": 58 },
+      "2018": { "1": 29, "2": 0, "3": 28, "4": 59, "5": 29, "6": 0, "7": 30, "8": 1, "9": 32, "10": 2, "11": 33, "12": 3 },
+      "2019": { "1": 34, "2": 5, "3": 33, "4": 4, "5": 34, "6": 5, "7": 35, "8": 6, "9": 37, "10": 7, "11": 38, "12": 8 },
+      "2020": { "1": 39, "2": 10, "3": 39, "4": 10, "5": 40, "6": 11, "7": 41, "8": 12, "9": 43, "10": 13, "11": 44, "12": 14 },
+      "2021": { "1": 45, "2": 16, "3": 44, "4": 15, "5": 45, "6": 16, "7": 46, "8": 17, "9": 48, "10": 18, "11": 49, "12": 19 },
+      "2022": { "1": 50, "2": 21, "3": 49, "4": 20, "5": 50, "6": 21, "7": 51, "8": 22, "9": 53, "10": 23, "11": 54, "12": 24 },
+      "2023": { "1": 55, "2": 26, "3": 54, "4": 25, "5": 55, "6": 26, "7": 56, "8": 27, "9": 58, "10": 28, "11": 59, "12": 29 },
+      "2024": { "1": 0, "2": 31, "3": 0, "4": 31, "5": 1, "6": 32, "7": 2, "8": 33, "9": 4, "10": 34, "11": 5, "12": 35 },
+      "2025": { "1": 6, "2": 37, "3": 5, "4": 36, "5": 6, "6": 37, "7": 7, "8": 38, "9": 9, "10": 39, "11": 10, "12": 40 },
+      "2026": { "1": 11, "2": 42, "3": 10, "4": 41, "5": 11, "6": 42, "7": 12, "8": 43, "9": 14, "10": 44, "11": 15, "12": 45 },
+      "2027": { "1": 16, "2": 47, "3": 15, "4": 46, "5": 16, "6": 47, "7": 17, "8": 48, "9": 19, "10": 49, "11": 20, "12": 50 },
+      "2028": { "1": 21, "2": 52, "3": 21, "4": 52, "5": 22, "6": 53, "7": 23, "8": 54, "9": 25, "10": 55, "11": 26, "12": 56 },
+      "2029": { "1": 27, "2": 58, "3": 26, "4": 57, "5": 27, "6": 58, "7": 28, "8": 59, "9": 30, "10": 0, "11": 31, "12": 1 },
+      "2030": { "1": 32, "2": 3, "3": 31, "4": 2, "5": 32, "6": 3, "7": 33, "8": 4, "9": 35, "10": 5, "11": 36, "12": 6 }
+    },
+
+    "RANDOM_TO_JUNIUN": {
+      "1":"沐浴","2":"衰","3":"長生","4":"病","5":"冠帯","6":"帝旺",
+      "7":"沐浴","8":"衰","9":"長生","10":"病","11":"養","12":"死",
+      "13":"胎","14":"墓","15":"長生","16":"病","17":"養","18":"死",
+      "19":"胎","20":"墓","21":"絶","22":"絶","23":"墓","24":"胎",
+      "25":"胎","26":"墓","27":"絶","28":"絶","29":"墓","30":"胎",
+      "31":"死","32":"養","33":"病","34":"長生","35":"墓","36":"胎",
+      "37":"死","38":"養","39":"病","40":"長生","41":"衰","42":"沐浴",
+      "43":"帝旺","44":"冠帯","45":"病","46":"長生","47":"衰","48":"沐浴",
+      "49":"帝旺","50":"冠帯","51":"建禄","52":"建禄","53":"冠帯","54":"帝旺",
+      "55":"帝旺","56":"冠帯","57":"建禄","58":"建禄","59":"冠帯","60":"帝旺"
+    },
+
+    "JUNIUN_TO_TYPE": {
+      "胎":"星導航路士＝航路士","養":"橋渡し治癒師＝治癒師","長生":"魔術理論家＝理術師",
+      "沐浴":"迅速斥候＝先駆者","冠帯":"霊感織り手＝夢想者","建禄":"戦略建築家＝軍司令",
+      "帝旺":"錬成工匠＝匠師","衰":"影の策士＝影参謀","病":"調律奏者＝調律師",
+      "死":"守護聖騎士＝守護神","墓":"共感提唱士＝心導師","絶":"起点火付け役＝火付役"
+    }
+  };
+
+  const TYPE_ORDER = [
+    "星導航路士＝航路士",
+    "橋渡し治癒師＝治癒師",
+    "魔術理論家＝理術師",
+    "迅速斥候＝先駆者",
+    "霊感織り手＝夢想者",
+    "戦略建築家＝軍司令",
+    "錬成工匠＝匠師",
+    "影の策士＝影参謀",
+    "調律奏者＝調律師",
+    "守護聖騎士＝守護神",
+    "共感提唱士＝心導師",
+    "起点火付け役＝火付役"
+  ];
+
+  function toIndex(typeName) {
+    var idx = TYPE_ORDER.indexOf(typeName);
+    return idx >= 0 ? idx + 1 : 0;
+  }
+
+  const TYPE_DATA = {
+    "星導航路士＝航路士": {
+      tagline: "道筋を描いて、迷わず進みたいナビゲータータイプ",
+      polite: "まず道筋だけ共有してもよいですか？その上でご意見いただけると嬉しいです。",
+      casual: "ちょっとだけ全体の道筋、確認してもいい？そこから一緒に詰めよ。"
+    },
+    "橋渡し治癒師＝治癒師": {
+      tagline: "人と人の間にそっと橋をかける、クッション役タイプ",
+      polite: "まずは私の方で状況を整理してお伝えしてもよいでしょうか？その上で一緒に考えさせてください。",
+      casual: "いったん状況まとめて話してもいい？そこから一緒にどうするか考えよ。"
+    },
+    "魔術理論家＝理術師": {
+      tagline: "原理と仕組みから安心したい、ロジカル分析タイプ",
+      polite: "少しだけ前提と理由を整理してお話ししてもよいでしょうか？その上で率直なご意見をいただきたいです。",
+      casual: "ちょっとだけ理由と前提整理して話してもいい？その上でズバッと意見ほしい。"
+    },
+    "迅速斥候＝先駆者": {
+      tagline: "スピードと直感で動きたい、フットワーク軽めタイプ",
+      polite: "一度だけサッと試してみる案があるのですが、お聞きいただけますか？",
+      casual: "とりあえず一回だけ、サクッと試すパターンどう？"
+    },
+    "霊感織り手＝夢想者": {
+      tagline: "イメージと空気感を大事にする、ビジョン重視タイプ",
+      polite: "まずは全体のイメージだけ共有してもよろしいでしょうか？",
+      casual: "いったん、ざっくりしたイメージから話してもいい？"
+    },
+    "戦略建築家＝軍司令": {
+      tagline: "ゴールから逆算して積み上げたい、戦略プランナータイプ",
+      polite: "最終的なゴールから逆算した案を一度共有してもよろしいでしょうか？",
+      casual: "ゴールから逆算したざっくりプラン、一回だけ聞いてもらっていい？"
+    },
+    "錬成工匠＝匠師": {
+      tagline: "一つひとつを丁寧に仕上げたい、クラフトマンタイプ",
+      polite: "細部をもう少しだけ整えてから進めてもよろしいでしょうか？",
+      casual: "もうちょいだけ細かいところ整えてから動いてもいい？"
+    },
+    "影の策士＝影参謀": {
+      tagline: "表には出ず、裏側から支えたい参謀タイプ",
+      polite: "少し裏側のリスクと対策だけ整理してお話ししてもよろしいでしょうか？",
+      casual: "ちょっとだけ裏のリスクと段取り、共有させて。"
+    },
+    "調律奏者＝調律師": {
+      tagline: "全体のバランスと空気を整えたい、ハーモニー重視タイプ",
+      polite: "それぞれのバランスを一度整えてから、進めてもよろしいでしょうか？",
+      casual: "いったん全体のバランスだけ、ちょっと整えさせて？"
+    },
+    "守護聖騎士＝守護神": {
+      tagline: "守るべきものを全力で守りたい、ガーディアンタイプ",
+      polite: "守るべきポイントだけ確認させていただいてもよろしいでしょうか？",
+      casual: "ここだけは守りたいポイント、一回だけ確認させて。"
+    },
+    "共感提唱士＝心導師": {
+      tagline: "気持ちと背景を大切にしたい、共感ナビゲータータイプ",
+      polite: "まずはお気持ちと背景をお伺いしてもよろしいでしょうか？",
+      casual: "まずは気持ちと背景から聞かせてもらっていい？"
+    },
+    "起点火付け役＝火付役": {
+      tagline: "ゼロをイチにするきっかけを作る、ムードメーカータイプ",
+      polite: "まずは小さく始めるきっかけだけ作ってもよいでしょうか？そこから一緒に広げたいです。",
+      casual: "まずは小さく火だけつけてもいい？そこから一緒に広げよ。"
+    }
+  };
+
+  // アイコン：GitHub Pages 上の icons/ 配下を利用
+  const TYPE_ICON_URLS = {
+    "星導航路士＝航路士": "icons/01.png",
+    "橋渡し治癒師＝治癒師": "icons/02.png",
+    "魔術理論家＝理術師": "icons/03.png",
+    "迅速斥候＝先駆者": "icons/04.png",
+    "霊感織り手＝夢想者": "icons/05.png",
+    "戦略建築家＝軍司令": "icons/06.png",
+    "錬成工匠＝匠師": "icons/07.png",
+    "影の策士＝影参謀": "icons/08.png",
+    "調律奏者＝調律師": "icons/09.png",
+    "守護聖騎士＝守護神": "icons/10.png",
+    "共感提唱士＝心導師": "icons/11.png",
+    "起点火付け役＝火付役": "icons/12.png"
+  };
+
+  // ----------------------------
+  // 2. 診断ロジック
+  // ----------------------------
+  function diagnoseByTables(yyyy, mm, dd) {
+    var yKey = String(yyyy);
+    var mKey = String(mm);
+    var yearObj = DATA.RANDOM_TABLE[yKey];
+
+    if (!yearObj || yearObj[mKey] == null) {
+      throw new Error("未対応の年月です（" + yyyy + "年" + mm + "月）。");
+    }
+
+    var base = Number(yearObj[mKey]);
+    var num  = base + Number(dd);
+    if (num > 60) num = num - 60;
+
+    var juniun = DATA.RANDOM_TO_JUNIUN[String(num)];
+    if (!juniun) {
+      throw new Error("乱数 " + num + " に対応する十二運が見つかりません。");
+    }
+    var type = DATA.JUNIUN_TO_TYPE[juniun];
+    if (!type) {
+      throw new Error("十二運「" + juniun + "」に対応するタイプが未定義です。");
+    }
+    var idx = toIndex(type);
+
+    return {
+      year: yyyy,
+      month: mm,
+      day: dd,
+      base: base,
+      num: num,
+      juniun: juniun,
+      typeName: type,
+      index: idx
+    };
+  }
+
+  // ----------------------------
+  // 3. 結果表示
+  // ----------------------------
+  function showResult(res) {
+    $("result").classList.add("show");
+
+    $("typeCode").textContent =
+      "診断結果（" + res.year + "年" + pad2(res.month) + "月" + pad2(res.day) + "日生まれ）";
+    $("typeName").textContent =
+      "#" + pad2(res.index) + " " + res.typeName;
+
+    var tData = TYPE_DATA[res.typeName] || {};
+    $("typeTagline").textContent = tData.tagline || "";
+
+    var relSuffix = "";
+    if (res.relation && res.relation !== "選択しない") {
+      relSuffix = "｜診断対象:" + res.relation;
+    }
+
+    $("typeMeta").textContent =
+      "年:" + res.year +
+      " 月:" + res.month +
+      "｜乱数:" + res.base + "＋日=" + res.num +
+      "｜十二運:" + res.juniun +
+      relSuffix;
+
+    $("typeMessage").textContent =
+      "まずはこのタイプの前提を押さえてから、言い方テンプレを選んでいきましょう。";
+
+    $("phrasePolite").textContent =
+      tData.polite || "有料版テンプレートで詳細なフレーズが手に入ります。";
+    $("phraseCasual").textContent =
+      tData.casual || "有料版テンプレートで詳細なフレーズが手に入ります。";
+
+    var iconEl = $("typeIcon");
+    if (!iconEl) return;
+
+    var url = TYPE_ICON_URLS[res.typeName] || "";
+    iconEl.onerror = function (ev) {
+      console.error("typeIcon load ERROR", ev, "src =", iconEl.src);
+      iconEl.style.display = "none";
+    };
+    iconEl.onload = function () {
+      console.log("typeIcon load OK");
+    };
+
+    if (url) {
+      iconEl.src = url;
+      iconEl.style.display = "block";
+    } else {
+      iconEl.removeAttribute("src");
+      iconEl.style.display = "none";
+    }
+  }
+
+  // ----------------------------
+  // 4. トースト・セレクタ初期化
+  // ----------------------------
+  function showToast(msg) {
+    var t = $("toast");
+    if (!t) return;
+    t.textContent = msg;
+    t.classList.add("show");
+    setTimeout(function() {
+      t.classList.remove("show");
+    }, 2400);
+  }
+
+  function populateDateSelectors() {
+    var yearSel  = $("year");
+    var monthSel = $("month");
+    var daySel   = $("day");
+
+    if (!yearSel || !monthSel || !daySel) {
+      console.warn("year / month / day の select が見つかりません。");
+      return;
+    }
+
+    var yMin = 1926;
+    var yMax = 2030;
+
+    var yearsHtml = "";
+    for (var y = yMin; y <= yMax; y++) {
+      yearsHtml += '<option value="' + y + '">' + y + "</option>";
+    }
+    yearSel.innerHTML = yearsHtml;
+
+    var monthHtml = "";
+    for (var m = 1; m <= 12; m++) {
+      monthHtml += '<option value="' + m + '">' + m + "</option>";
+    }
+    monthSel.innerHTML = monthHtml;
+
+    var dayHtml = "";
+    for (var d = 1; d <= 31; d++) {
+      dayHtml += '<option value="' + d + '">' + d + "</option>";
+    }
+    daySel.innerHTML = dayHtml;
+
+    yearSel.value  = "1990";
+    monthSel.value = "5";
+    daySel.value   = "1";
+  }
+
+  // ----------------------------
+  // 5. 初期化
+  // ----------------------------
+  document.addEventListener("DOMContentLoaded", function() {
+    populateDateSelectors();
+
+    var btn = $("btnDiagnose");
+    if (btn) {
+      btn.addEventListener("click", function() {
+        var y = Number($("year").value);
+        var m = Number($("month").value);
+        var d = Number($("day").value);
+        var relKey = $("relation") ? $("relation").value : "none";
+        var relationLabel = RELATION_LABELS[relKey] || "";
+
+        if (!y || !m || !d) {
+          showToast("生年月日（年・月・日）をすべて選択してください。");
+          return;
+        }
+
+        try {
+          var res = diagnoseByTables(y, m, d);
+          res.relation = relationLabel;
+          console.log("diagnose result:", res);
+          showResult(res);
+        } catch (e) {
+          console.error(e);
+          showToast(e.message || "判定ロジックでエラーが発生しました。");
+        }
+      });
+    }
+  });
+</script>
+</body>
+</html>
